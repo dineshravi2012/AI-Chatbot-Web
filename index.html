@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Redirect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chatbot Integration</title>
   <style>
     /* General Page Styling */
     body {
@@ -71,7 +71,7 @@
     /* Active menu item */
     .header-container .menu-item.active {
       color: white;
-      background-color: red; /* Active menu item color changed to maroon */
+      background-color: red; /* Active menu item color */
     }
 
     /* Header right-side icons */
@@ -115,7 +115,7 @@
 
     /* Text content styling */
     .text-content {
-      margin: 3%; /* Add 20% margin */
+      margin: 3%; /* Add 3% margin */
     }
 
     .text-content h4 {
@@ -129,33 +129,108 @@
     }
 
     /* Chatbot button styling */
-  .open-chatbot {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: transparent;
-    padding: 0; /* Remove padding */
-    border: none; /* Remove border */
-    border-radius: 90%; /* Ensure the button itself is circular */
-    cursor: pointer;
-    z-index: 1000;
-}
+    .open-chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: transparent;
+      padding: 0; /* Remove padding */
+      border: none; /* Remove border */
+      border-radius: 50%; /* Ensure the button itself is circular */
+      cursor: pointer;
+      z-index: 1000;
+    }
 
-.circle {
-    width: 55px; /* Set the desired width of the circle */
-    height: 55px; /* Set the desired height of the circle */
-    overflow: hidden; /* Hide any overflow */
-    border-radius: 95%; /* Create a circular shape */
-    display: flex; /* Center the image */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
+    .circle {
+      width: 55px; /* Set the desired width of the circle */
+      height: 55px; /* Set the desired height of the circle */
+      overflow: hidden; /* Hide any overflow */
+      border-radius: 50%; /* Create a circular shape */
+      display: flex; /* Center the image */
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+      background-color: white; /* Optional: Add a background color to the chatbot button */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for depth */
+    }
 
-.circle img {
-    width: 100%; /* Image will fill the circle */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Prevents space below the image */
-}
+    .circle img {
+      width: 100%; /* Image will fill the circle */
+      height: auto; /* Maintain aspect ratio */
+      display: block; /* Prevents space below the image */
+    }
+
+    /* Chatbot Modal Styling */
+    .chatbot-modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      bottom: 90px; /* Position above the chatbot button */
+      right: 20px;
+      width: 350px;
+      max-width: 90%;
+      height: 500px;
+      max-height: 80%;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chatbot-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .chatbot-title .chatbot-icon {
+      width: 24px; /* Adjust size as needed */
+      height: 24px;
+      margin-right: 8px; /* Space between icon and text */
+    }
+
+    .chatbot-header h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .chatbot-close {
+      background-color: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .chatbot-body {
+      flex-grow: 1;
+      border: none;
+    }
+
+    /* Text note above chatbot button */
+    .chatbot-note {
+      position: fixed;
+      bottom: 85px; /* Adjusted to be just above the chatbot button */
+      right: 20px;
+      background-color: rgba(212, 41, 41, 0.8); /* Semi-transparent background */
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #fcf7f7;
+      z-index: 1002; /* Above the chatbot button */
+      box-shadow: 0 2px 5px rgba(219, 7, 7, 0.2);
+    }
 
     /* Responsive Design */
     @media (max-width: 768px) {
@@ -172,6 +247,17 @@
 
       .header-container {
         padding: 10px;
+      }
+
+      .chatbot-modal {
+        width: 90%;
+        height: 60%;
+        bottom: 80px;
+      }
+
+      .chatbot-note {
+        font-size: 12px;
+        padding: 4px 8px;
       }
     }
   </style>
@@ -207,23 +293,53 @@
     </div>    
   </div>
 
-  <!-- Open chatbot button -->
-  <!-- <button id="openChat" class="open-chatbot"> -->
-    <!-- <img src="chatbot.png" alt="Chatbot Icon" width="50px" height="50px"/> <!-- Local image for chatbot -->
-  <!-- </button> -->
+  <!-- Text note above chatbot button -->
+  <div class="chatbot-note" id="chatbot-note">How may I help you?</div>
 
-<button id="openChat" class="open-chatbot">
+  <!-- Open chatbot button -->
+  <button id="openChat" class="open-chatbot">
     <div class="circle">
-        <img src="chatbot.png" alt="Chatbot Icon" /> <!-- Local image for chatbot -->
+      <img src="chatbot-blue.png" alt="Chatbot Icon" /> <!-- Local image for chatbot -->
     </div>
-</button>
+  </button>
+
+  <!-- Chatbot Modal -->
+  <div id="chatbotModal" class="chatbot-modal">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <img src="chatbot-blue.png" alt="Chatbot Icon" class="chatbot-icon" /> <!-- Chatbot icon before the name -->
+        <h4>Informa AI</h4>
+      </div>
+      <button id="closeChat" class="chatbot-close">&times;</button>
+    </div>
+    <iframe src="https://ai-chatbot-streamlit-cwavbfe2ehbegdgu.canadacentral-01.azurewebsites.net/" class="chatbot-body"></iframe>
+  </div>
 
   <script>
     const openChat = document.getElementById('openChat');
+    const chatbotModal = document.getElementById('chatbotModal');
+    const closeChat = document.getElementById('closeChat');
+    const chatbotText = document.getElementById('chatbot-note');
 
+    chatbotModal.style.display = 'none';
+
+    // Open chatbot modal
     openChat.addEventListener('click', () => {
-      // Opens the chatbot URL in a new tab
-      window.open('https://humble-guacamole-r4p76wrq67qxc55vw-8501.app.github.dev/', '_blank');
+      chatbotModal.style.display = 'flex';
+      chatbotText.style.display = 'none';
+    });
+
+    // Close chatbot modal
+    closeChat.addEventListener('click', () => {
+      chatbotModal.style.display = 'none';
+      chatbotText.style.display = 'block';
+    });
+
+    // Close the chatbot modal when clicking outside of it
+    window.addEventListener('click', (event) => {
+      if (event.target == chatbotModal) {
+        chatbotModal.style.display = 'none';
+      }
     });
 
     // Handling active/inactive state for menu items
