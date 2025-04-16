@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Informa AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informa AI & DataTalk AI Chatbot</title>
   <style>
-    /* General Page Styling */
-    body {
+     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -14,8 +13,9 @@
       display: flex;
       flex-direction: column;
     }
+/* old code */
 
-    /* Header container */
+/* Header container */
     .header-container {
       display: flex;
       justify-content: space-between;
@@ -105,7 +105,7 @@
       flex-direction: column; /* Stack children vertically */
       justify-content: center;
       align-items: flex-start; /* Align items to the start (left) */
-      background-image: url('swb.png'); /* Content background image */
+      background-image: url('632642.jpg'); /* Content background image */
       background-size: cover; /* Ensures the image covers the div */
       background-position: center; /* Centers the background image */
       width: 100%;
@@ -280,6 +280,107 @@
         padding: 4px 8px;
       }
     }
+/* old code end*/
+
+
+    /* Chatbot launcher icon */
+    .chatbot-launcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #F40000;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Chatbot popup container */
+    .chatbot-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 20px; 
+	  max-width: 90%;
+	  width: 380px;
+      height: 500px;
+      max-height: 80%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    /* Header section */
+    .chatbot-header {
+      background-color: #F40000;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .chatbot-header span {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .chatbot-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background-color: #f1f1f1;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .tab.active {
+      background-color: #e0e0e0;
+    }
+
+    /* iframe containers */
+    .iframe-container {
+      flex-grow: 1;
+      display: none;
+      height: 100%;
+    }
+
+    .iframe-container.active {
+      display: block;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -294,8 +395,8 @@
     <!-- Menu items -->
     <div class="menu">
       <span class="menu-item active" id="home">Home</span> <!-- Active menu item -->
-      <span class="menu-item inactive" id="summary">Summary</span> <!-- Inactive menu item -->
-      <span class="menu-item inactive" id="usage-dashboard">Usage Dashboard</span> <!-- Inactive menu item -->
+      <span class="menu-item inactive" id="details">Details</span> <!-- Inactive menu item -->
+      <span class="menu-item inactive" id="sales">Sales</span> <!-- Inactive menu item -->
     </div>
 
     <!-- Icons on the right -->
@@ -305,112 +406,90 @@
     </div>
   </div>
 
-  <!-- Content section -->
+ <!-- Content section -->
   <div class="content">
     <div class="text-content">
-      <h4>Welcome to</h4>         
-      <h3>Home Page</h3>
+      <!-- <h4>Welcome to</h4>          -->
+      <!-- <h3>Home Page</h3> -->
     </div>    
   </div>
 
-  <!-- Text note above chatbot button -->
+	<!-- Text note above chatbot button -->
   <div class="chatbot-note" id="chatbot-note">How may I help you?</div>
 
-  <!-- Open chatbot button -->
-  <button id="openChat" class="open-chatbot">
-    <div>
-      <img src="Bottom chatbot.svg" alt="Chatbot Icon" /> <!-- Local image for chatbot -->
-    </div>
-  </button>
+  <!-- <!-- Open chatbot button --> -->
+  <!-- <button id="openChat" class="open-chatbot"> -->
+    <!-- <div> -->
+      <!-- <img src="Bottom chatbot.svg" alt="Chatbot Icon" /> <!-- Local image for chatbot --> -->
+    <!-- </div> -->
+  <!-- </button> -->
 
-  <!-- Chatbot Modal -->
-  <div id="chatbotModal" class="chatbot-modal">
+  <!-- Chatbot Launcher -->
+  <div class="chatbot-launcher" onclick="toggleChatbotPopup()">💬</div>
+
+  <!-- Chatbot Popup -->
+  <div class="chatbot-popup" id="chatbotPopup">
+
     <div class="chatbot-header">
-      <div class="chatbot-title">
-        <img src="chatbot.svg" alt="Chatbot Icon" class="chatbot-icon" /> <!-- Chatbot icon before the name -->
-        <p>Informa AI</p>
-      </div>
-      <div>
-        <!-- <button id="minimizeChat" class="chatbot-minimize" title="Minimize">&minus;</button>
-        <button id="expandChat" class="chatbot-expand" title="Expand">+</button> -->
-        <button id="closeChat" class="chatbot-close" title="Close">&times;</button>
-      </div>
+      <button onclick="minimizeChatbot()">–</button>
+      <span>AI Chat Assistants</span>
+      <button onclick="closeChatbot()">×</button>
     </div>
-    <iframe src="https://streamlit-app-731211730906.us-central1.run.app/" class="chatbot-body"></iframe>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" id="tab1" onclick="switchTab('1')">Informa AI</div>
+      <div class="tab" id="tab2" onclick="switchTab('2')">DataTalk AI</div>
+    </div>
+
+    <!-- Chatbot iFrames -->
+    <div class="iframe-container active" id="iframe1">
+      <iframe src="https://streamlit-app-731211730906.us-central1.run.app/" title="Informa AI"></iframe>
+    </div>
+    <div class="iframe-container" id="iframe2">
+      <iframe src="https://streamlit-app-273404452880.us-central1.run.app/" title="DataTalk AI"></iframe>
+    </div>
+
   </div>
 
   <script>
-    const openChat = document.getElementById('openChat');
-    const chatbotModal = document.getElementById('chatbotModal');
-    const closeChat = document.getElementById('closeChat');
-    const minimizeChat = document.getElementById('minimizeChat');
-    const expandChat = document.getElementById('expandChat');
+    const popup = document.getElementById('chatbotPopup');
+    const tab1 = document.getElementById('tab1');
+    const tab2 = document.getElementById('tab2');
+    const iframe1 = document.getElementById('iframe1');
+    const iframe2 = document.getElementById('iframe2');
     const chatbotText = document.getElementById('chatbot-note');
+	
+	
 
-    chatbotModal.style.display = 'none';
+    function toggleChatbotPopup() {
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+	  chatbotText.style.display = 'none';
+    }
 
-    // Open chatbot modal
-    openChat.addEventListener('click', () => {
-      chatbotModal.style.display = 'flex';
-      chatbotText.style.display = 'none';
-    });
-
-    // Close chatbot modal
-    closeChat.addEventListener('click', () => {
-      chatbotModal.style.display = 'none';
-      chatbotText.style.display = 'block';
-      // Reset modal size in case it was minimized
-      chatbotModal.style.width = '350px';
-      chatbotModal.style.height = '500px';
-      expandChat.style.display = 'none';
-      minimizeChat.style.display = 'inline';
-    });
-
-    // Minimize chatbot modal
-    minimizeChat.addEventListener('click', () => {
-      chatbotModal.style.height = '70px'; // Height same as header
-      chatbotModal.style.width = '300px'; // Optional: Adjust width if needed
-      // Hide the minimize button and show the expand button
-      minimizeChat.style.display = 'none';
-      expandChat.style.display = 'inline';
-    });
-
-    // Expand chatbot modal
-    expandChat.addEventListener('click', () => {
-      chatbotModal.style.height = '500px'; // Restore original height
-      chatbotModal.style.width = '350px'; // Restore original width
-      // Hide the expand button and show the minimize button
-      expandChat.style.display = 'none';
-      minimizeChat.style.display = 'inline';
-    });
-
-    // Close the chatbot modal when clicking outside of it
-    window.addEventListener('click', (event) => {
-      if (event.target == chatbotModal) {
-        chatbotModal.style.display = 'none';
-        chatbotText.style.display = 'block';
-        // Reset modal size in case it was minimized
-        chatbotModal.style.width = '350px';
-        chatbotModal.style.height = '500px';
-        expandChat.style.display = 'none';
-        minimizeChat.style.display = 'inline';
+    function switchTab(tabNumber) {
+      if (tabNumber === '1') {
+        tab1.classList.add('active');
+        tab2.classList.remove('active');
+        iframe1.classList.add('active');
+        iframe2.classList.remove('active');
+      } else {
+        tab2.classList.add('active');
+        tab1.classList.remove('active');
+        iframe2.classList.add('active');
+        iframe1.classList.remove('active');
       }
-    });
+    }
 
-    // Handling active/inactive state for menu items
-    const menuItems = document.querySelectorAll('.menu-item');
-    
-    menuItems.forEach(item => {
-      item.addEventListener('click', function() {
-        // Remove active class from all items
-        menuItems.forEach(menu => menu.classList.remove('active'));
-        menuItems.forEach(menu => menu.classList.add('inactive'));
-        
-        // Add active class to the clicked item
-        this.classList.add('active');
-        this.classList.remove('inactive');
-      });
-    });
+    function closeChatbot() {
+      popup.style.display = 'none';
+	  chatbotText.style.display = 'block';
+    }
+
+    function minimizeChatbot() {
+      popup.style.display = 'none';
+	  chatbotText.style.display = 'block';
+    }
   </script>
 
 </body>
